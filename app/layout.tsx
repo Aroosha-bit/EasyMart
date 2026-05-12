@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import AuthContextProvider from "./lib/contexts/AuthContext";
+import { Providers } from "./redux/providers";
+// import {CartProvider} from "./lib/contexts/cartContext"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +29,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthContextProvider>
+          <Providers>{children}</Providers>
+        </AuthContextProvider>
+      </body>
     </html>
   );
 }
