@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import cheese1 from "../../public/assets/cheese1.svg";
 import cheese2 from "../../public/assets/cheese2.svg";
 import cheese3 from "../../public/assets/cheese3.svg";
@@ -18,6 +19,62 @@ export interface cheeseItems {
   itemsLeft: number;
 }
 export const cheeseItems: cheeseItems[] = [
+  {
+    img: cheese1,
+    name: "Cheddar Cheese",
+    quantity: 2.71,
+    price: 99,
+  itemsLeft: 12,
+  },
+  {
+    img: cheese2,
+    name: "Mozzarella Cheese",
+    quantity: 3.25,
+    price: 50 ,
+   itemsLeft: 8,
+  },
+  {
+    img: cheese3,
+    name: "Parmesan Cheese",
+    quantity: 2.71,
+    price: 10.25,
+    itemsLeft: 5,
+  },
+  {
+    img: cheese4,
+    name: "Blue Cheese",
+    quantity: 2.71,
+    price: 12.00,
+    itemsLeft: 3,
+  },
+  {
+    img: cheese1,
+    name: "Cheddar Cheese",
+    quantity: 2.71,
+    price: 8.99,
+    itemsLeft: 12,
+  },
+  {
+    img: cheese2,
+    name: "Mozzarella Cheese",
+    quantity: 3.2,
+    price: 6.50,
+    itemsLeft: 8,
+  },
+  {
+    img: cheese3,
+    name: "Parmesan Cheese",
+    quantity: 2.7,
+    price: 10.25,
+    itemsLeft: 5,
+  },
+  {
+    img: cheese4,
+    name: "Blue Cheese",
+    quantity: 2.7,
+    price: 12.00,
+    itemsLeft: 3,
+  },
   {
     img: cheese1,
     name: "Cheddar Cheese",

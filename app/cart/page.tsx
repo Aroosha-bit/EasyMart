@@ -149,8 +149,7 @@ const checkOutButton = async () => {
               </div>
             </div>
 
-            <div className="w-72 flex-shrink-0">
-              <div className="sticky top-24">
+            <div className="w-72 sticky top-24 flex-shrink-0">
                 <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                   <div className="bg-[#f2e7f1] px-5 py-3">
                     <div className="w-full bg-gray-200 rounded-full h-1 mb-2">
@@ -196,7 +195,6 @@ const checkOutButton = async () => {
                     </button>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
