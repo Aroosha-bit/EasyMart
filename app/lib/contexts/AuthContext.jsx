@@ -79,7 +79,7 @@ export default function AuthContextProvider({ children }) {
       }
 
       await sendEmailVerification(userCredential.user, {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/logIn`,
       });
 
       await signOut(auth);
