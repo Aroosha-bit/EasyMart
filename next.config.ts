@@ -5,6 +5,10 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  
+  images: {
+    domains: ["firebasestorage.googleapis.com"],
+  },
 };
 
 module.exports = nextConfig;

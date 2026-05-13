@@ -9,8 +9,8 @@ export const Footer = () => {
   const socialLinks = ["Facebook", "Twitter", "Instagram"];
   return (
     <div className="border-t border-[#E0E0E0]">
-      <div className="container mt-4 mx-auto  py-5 ">
-        <div className="  flex items-start justify-between">
+      <div className="container mt-4 mx-auto  py-5 lg:px-0 px-5 ">
+        <div className="flex lg:flex-row flex-col lg:gap-0 gap-5 items-start justify-between">
           <Image src={FooterLogo} alt="" />
           <div>
             <p className="text-[#282828] font-[600] text-[14px]">About</p>

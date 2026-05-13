@@ -21,19 +21,19 @@ const detailsModal = () => {
 router.push("/profile")
 }
   return (
-    <div className="border border-[#F8F7F8] flex items-center justify-between py-[10px] px-[40px]">
+    <div className="border border-[#F8F7F8] flex items-center justify-between lg:py-[10px] lg:px-[40px]">
       <div className="flex items-center gap-[20px]">
         <Link href={"/"}>
           <Image src={logo} alt="logo" />
         </Link>
 
-        <div className="text-[#3E3B3F] flex items-center gap-[5px]">
+        <div className="text-[#3E3B3F] hidden lg:flex items-center gap-[5px]">
           <MapPin />
           <span className="font-[500] text-[14px]">10115 New York</span>
         </div>
       </div>
 
-      <div className="relative w-[30%] mt-[20px]">
+      {/* <div className="relative w-[30%] mt-[20px]">
         <div className="absolute bg-[#FEF5FD] rounded-full w-fit p-2 left-[12px] top-1/2 -translate-y-1/2">
           <Search size={18} className=" text-[#B6349A]" />
         </div>
@@ -43,13 +43,13 @@ router.push("/profile")
           placeholder="Search by"
           className="w-full h-[40px] rounded-[8px] text-[#3E3B3F] border border-[#E0E0E0] pl-[60px] pr-[16px] outline-none"
         />
-      </div>
+      </div> */}
 
       <div className="flex gap-[20px] mt-[20px]">
         <Link
           href="/cart"
           onClick={() => setCartActive(!cartActive)}
-          className={`relative px-[20px] flex items-center gap-[3px] rounded-full w-fit ${
+          className={`relative px-[10px] lg:px-[20px] flex items-center gap-[3px] rounded-full w-fit ${
             cartActive
               ? "bg-[#FEF5FD] border border-[#FEF5FD]"
               : "bg-[#FFFFFF] border border-[#B6349A]"
@@ -68,7 +68,7 @@ router.push("/profile")
           </span>
         </Link>
         {user ? (
-          <div className="py-[10px] px-[20px] flex items-center gap-[3px] rounded-full w-fit bg-[#FEF5FD] border border-[#B6349A] group hover:bg-[#B6349A] ">
+          <div className="px-[10px] py-[5px] lg:py-[10px] lg:px-[20px] rounded-full bg-[#FEF5FD] border border-[#B6349A] group hover:bg-[#B6349A] ">
             <p onClick={detailsModal} className="font-[600] text-[#B6349A] group-hover:text-white text-[20px]">
               {user.displayName.charAt(0).toUpperCase()}
             </p>

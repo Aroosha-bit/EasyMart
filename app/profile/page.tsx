@@ -15,14 +15,14 @@ import {
   LogOut,
   Pencil,
   Plus,
-  Menu,
-  Search,
+  X,
 } from "lucide-react";
 import { Header } from "../components/Header";
 import { useAuth } from "../lib/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebase";
 import { signOut } from "firebase/auth";
+
 const navItems = [
   { icon: User, label: "Account Details", href: "#" },
   { icon: ShoppingBag, label: "My Orders", href: "#" },
@@ -61,15 +61,15 @@ const initialAddresses = [
 export default function ProfilePage() {
   const [addresses, setAddresses] = useState(initialAddresses);
   const [showModal, setShowModal] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
   const [editingAddress, setEditingAddress] = useState<
     null | (typeof initialAddresses)[0]
   >(null);
   const [formData, setFormData] = useState({ label: "", address: "" });
- const {
-    user } = useAuth();
+  const { user } = useAuth();
 
-const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       await signOut(auth);
       router.push("/logIn");
@@ -116,55 +116,106 @@ const handleLogout = async () => {
     setShowModal(false);
   };
 
+  const NavContent = ({ onClose }: { onClose?: () => void }) => (
+    <>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#B6349A] to-[#e07bcf] flex items-center justify-center text-white font-bold text-lg overflow-hidden flex-shrink-0">
+          <p>{user?.displayName?.charAt(0) || "U"}</p>
+        </div>
+        <div className="min-w-0">
+          <span className="font-semibold text-gray-800 text-sm block truncate">
+            {user?.displayName || "User"}
+          </span>
+          <span className="text-xs text-gray-400 truncate block">
+            {user?.email || ""}
+          </span>
+        </div>
+      </div>
+
+      <nav className="flex flex-col gap-1 flex-1">
+        {navItems.map(({ icon: Icon, label, active }) => (
+          <a
+            key={label}
+            href="#"
+            onClick={onClose}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+              active
+                ? "text-[#B6349A] font-semibold bg-[#f9f0f8]"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+            }`}
+          >
+            <Icon
+              size={17}
+              className={active ? "text-[#B6349A]" : "text-gray-400"}
+            />
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      <button
+        onClick={handleLogout}
+        className="flex items-center cursor-pointer gap-3 px-3 py-2.5 mt-4 text-sm text-gray-500 hover:text-red-800 hover:bg-gray-50 rounded-xl transition-colors w-full"
+      >
+        <LogOut size={17} />
+        Logout
+      </button>
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 flex gap-6">
-        <aside className="w-56 flex-shrink-0">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#B6349A] to-[#e07bcf] flex items-center justify-center text-white font-bold text-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=48&h=48&fit=crop&crop=face"
-                  alt="avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="font-semibold text-gray-800 text-sm">
-                {user?.displayName || "User"}
-              </span>
-            </div>
+      <div className="lg:hidden flex items-center gap-3 px-4 py-4 bg-white border-b border-gray-100">
+        <button
+          onClick={() => setDrawerOpen(true)}
+          aria-label="Open profile menu"
+          className="w-10 h-10 rounded-full bg-gradient-to-br from-[#B6349A] to-[#e07bcf] flex items-center justify-center text-white font-bold text-base flex-shrink-0 active:opacity-80 transition-opacity"
+        >
+          {user?.displayName?.charAt(0) || "U"}
+        </button>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-gray-800 truncate">
+            {user?.displayName || "User"}
+          </p>
+          <p className="text-xs text-gray-400">{user?.email || ""}</p>
+        </div>
+      </div>
 
-            <nav className="flex flex-col gap-1 flex-1">
-              {navItems.map(({ icon: Icon, label, active }) => (
-                <a
-                  key={label}
-                  href="#"
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                    active
-                      ? "text-[#B6349A] font-semibold bg-[#f9f0f8]"
-                      : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
-                  }`}
-                >
-                  <Icon
-                    size={17}
-                    className={active ? "text-[#B6349A]" : "text-gray-400"}
-                  />
-                  {label}
-                </a>
-              ))}
-            </nav>
+      {drawerOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/40 z-40 transition-opacity"
+          onClick={() => setDrawerOpen(false)}
+        />
+      )}
 
-            <button onClick={handleLogout} className="flex items-center cursor-pointer gap-3 px-3 py-2.5 mt-4 text-sm text-gray-500 hover:text-red-800 hover:bg-gray-50 rounded-xl transition-colors w-full">
-              <LogOut size={17} className="" />
-              Logout
-            </button>
+      <div
+        className={`lg:hidden fixed top-0 left-0 h-full w-[280px] bg-white z-50 shadow-2xl flex flex-col p-5 transition-transform duration-300 ease-in-out overflow-y-auto
+          ${drawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="flex justify-end mb-2">
+          <button
+            onClick={() => setDrawerOpen(false)}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400"
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <NavContent onClose={() => setDrawerOpen(false)} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 lg:py-8 flex gap-6">
+        <aside className="hidden lg:block w-56 flex-shrink-0">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col h-full sticky top-6">
+            <NavContent />
           </div>
         </aside>
 
         <main className="flex-1 min-w-0">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">
             My Addresses
           </h1>
 
@@ -173,14 +224,13 @@ const handleLogout = async () => {
               <div
                 key={addr.id}
                 onClick={() => selectAddress(addr.id)}
-                className={`bg-white rounded-2xl border px-6 py-5 flex items-center justify-between cursor-pointer transition-all ${
+                className={`bg-white rounded-2xl border px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between cursor-pointer transition-all ${
                   addr.selected
                     ? "border-[#B6349A] shadow-sm shadow-[#f2e7f1]"
                     : "border-gray-100 hover:border-gray-200"
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  {/* Radio */}
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
                       addr.selected ? "border-[#B6349A]" : "border-gray-300"
@@ -191,32 +241,29 @@ const handleLogout = async () => {
                     )}
                   </div>
 
-                  {/* Text */}
-                  <div>
-                    <p className="text-gray-900 font-semibold text-sm">
+                  <div className="min-w-0">
+                    <p className="text-gray-900 font-semibold text-sm truncate">
                       {addr.label}
                     </p>
-                    <p className="text-gray-400 text-sm mt-0.5">
+                    <p className="text-gray-400 text-xs sm:text-sm mt-0.5 line-clamp-2">
                       {addr.address}
                     </p>
                   </div>
                 </div>
 
-                {/* Edit */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     openEdit(addr);
                   }}
-                  className="flex items-center gap-1.5 text-[#B6349A] text-sm font-medium hover:opacity-75 transition-opacity"
+                  className="flex items-center gap-1.5 text-[#B6349A] text-sm font-medium hover:opacity-75 transition-opacity flex-shrink-0 ml-3"
                 >
                   <Pencil size={15} />
-                  Edit
+                  <span className="hidden sm:inline">Edit</span>
                 </button>
               </div>
             ))}
 
-            {/* Add Address */}
             <button
               onClick={openAdd}
               className="flex items-center gap-2 text-[#B6349A] font-semibold text-sm mt-2 hover:opacity-75 transition-opacity w-fit"
@@ -228,9 +275,10 @@ const handleLogout = async () => {
         </main>
       </div>
 
+   
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-xl p-6 sm:p-8 w-full sm:max-w-md mx-0 sm:mx-4">
             <h2 className="text-lg font-bold text-gray-900 mb-6">
               {editingAddress ? "Edit Address" : "Add New Address"}
             </h2>

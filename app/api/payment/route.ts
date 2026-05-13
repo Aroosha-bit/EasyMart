@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.item,
+            name: item.name,
           },
           unit_amount: Math.round(
             parseFloat(String(item.price).replace("$", "")) * 100
@@ -22,8 +22,8 @@ export async function POST(request: NextRequest) {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/cancel`,
     });
 
     return NextResponse.json({ url: session.url });

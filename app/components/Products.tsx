@@ -5,13 +5,15 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
-import { cheeseItems, eggItems, milkItems } from "../data/productsData";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../redux/slice";
 import img1 from "../../public/assets/img1.svg";
 import img2 from "../../public/assets/img2.svg";
 import img3 from "../../public/assets/img3.svg";
 
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { useEffect, useState } from "react";
 const ProductCard = ({
   item,
   itemCount,
@@ -26,7 +28,13 @@ const ProductCard = ({
       className="bg-[#f2e7f1] rounded-[32px] flex items-center
                      justify-center p-5 h-[200px] w-full"
     >
-      <Image src={item.img} alt={item.name} className="object-contain h-full" />
+      <Image
+        src={item.image}
+        alt={item.name}
+        width={200}
+        height={200}
+        className="object-contain h-full"
+      />{" "}
     </div>
     <h2 className="text-[#0D0C0D] font-[500] text-[16px] truncate">
       {item.name}
@@ -40,8 +48,7 @@ const ProductCard = ({
       <span className="text-[#B6349A] font-[600] text-[12px]">{itemCount}</span>
       <div
         onClick={onAdd}
-        className="bg-[#f2e7f1] group hover:bg-[#B6349A]
-                   rounded-full p-2 cursor-pointer"
+        className="bg-[#f2e7f1] group hover:bg-[#B6349A] rounded-full p-2 cursor-pointer"
       >
         <Plus
           size={18}
@@ -96,9 +103,9 @@ const ProductSection = ({
         className="w-full"
       >
         {items.map((item, index) => {
-          const itemCount = cartItems.filter(
-            (c: any) => c.item === item.name,
-          ).length;
+          const itemInCart = cartItems.find((c: any) => c.id === item.id);
+
+          const itemCount = itemInCart ? itemInCart.quantity : 0;
 
           return (
             <SwiperSlide key={index} style={{ width: "180px" }}>
@@ -119,7 +126,7 @@ export const Products = ({ priceFilter }: any) => {
   const images = [img1, img2, img3];
   const cartItems = useSelector((state: any) => state.items);
   const dispatch = useDispatch();
-
+  const [products, setProducts] = useState<any[]>([]);
   const filterByPrice = (items: any[]) =>
     items.filter((item) => {
       const price = parseFloat(String(item.price).replace("$", ""));
@@ -128,9 +135,31 @@ export const Products = ({ priceFilter }: any) => {
       if (priceFilter === "50+") return price > 50;
       return true;
     });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
 
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+  const cheeseItems = products.filter((item) => item.category === "cheese");
+
+  const milkItems = products.filter((item) => item.category === "milk");
+
+  const eggItems = products.filter((item) => item.category === "eggs");
   return (
-    <div className="w-10/12 px-3 py-5">
+    <div className="lg:w-10/12 px-3 lg:py-5">
       <div className="py-4">
         <Swiper
           modules={[Autoplay]}

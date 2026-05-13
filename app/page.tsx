@@ -7,13 +7,17 @@ import { Products } from "./components/Products";
 import { Filter } from "./components/Filter";
 import { useState } from "react";
 
-
 export default function Home() {
-const [priceFilter, setPriceFilter] = useState("all");
+  const [priceFilter, setPriceFilter] = useState("all");
   return (
     <div className="bg-white">
       <Header />
-      <div className="flex">
+      <div className="lg:hidden ">
+        <Filter setPriceFilter={setPriceFilter} /> 
+        <Products priceFilter={priceFilter} />
+      </div>
+     
+      <div className="hidden lg:flex">
         <Filter setPriceFilter={setPriceFilter} />
         <Products priceFilter={priceFilter} />
       </div>

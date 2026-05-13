@@ -11,17 +11,23 @@ const Slice = createSlice({
   name: "addCartItems",
   initialState,
   reducers: {
-    addItem: (state, action) => {
-      console.log("Action", action);
-      const data = {
-        id: nanoid(),
-        item: action.payload.name,
-        price: action.payload.price,
-        img: action.payload.img,
-        quantity: 1,
-      };
-      state.items.push(data); //this line add item to items array in redux store, and we can access this data in any component in the app using useSelector hook
-    },
+   addItem: (state, action) => {
+  const existingItem = state.items.find(
+    (item) => item.id === action.payload.id
+  );
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    state.items.push({
+      id: action.payload.id,
+      name: action.payload.name,
+      price: action.payload.price,
+      image: action.payload.image,
+      quantity: 1,
+    });
+  }
+},
     removeItem: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
