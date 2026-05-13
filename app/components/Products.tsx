@@ -23,18 +23,15 @@ const ProductCard = ({
   itemCount: number;
   onAdd: () => void;
 }) => (
-  <div className="flex flex-col gap-[10px] w-full">
-    <div
-      className="bg-[#f2e7f1] rounded-[32px] flex items-center
-                     justify-center p-5 h-[200px] w-full"
-    >
+  <div className="flex flex-col gap-[10px] w-full ">
+    <div className="bg-[#f2e7f1] cursor-pointer rounded-[32px] flex items-center justify-center p-5 h-[200px] w-full transition-transform duration-300 hover:scale-[1.10]">
       <Image
         src={item.image}
         alt={item.name}
         width={200}
         height={200}
         className="object-contain h-full"
-      />{" "}
+      />
     </div>
     <h2 className="text-[#0D0C0D] font-[500] text-[16px] truncate">
       {item.name}
@@ -122,7 +119,7 @@ const ProductSection = ({
   );
 };
 
-export const Products = ({ priceFilter }: any) => {
+export const Products = ({ priceFilter, categoryFilter }: any) => {
   const images = [img1, img2, img3];
   const cartItems = useSelector((state: any) => state.items);
   const dispatch = useDispatch();
@@ -135,6 +132,10 @@ export const Products = ({ priceFilter }: any) => {
       if (priceFilter === "50+") return price > 50;
       return true;
     });
+
+  const filterByCategory = (items: any[], category?: string) =>
+    items.filter((item) => !category || item.category === category);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -183,24 +184,30 @@ export const Products = ({ priceFilter }: any) => {
         </Swiper>
       </div>
 
-      <ProductSection
-        title="Cheese"
-        items={filterByPrice(cheeseItems)}
-        cartItems={cartItems}
-        dispatch={dispatch}
-      />
-      <ProductSection
-        title="Milk"
-        items={filterByPrice(milkItems)}
-        cartItems={cartItems}
-        dispatch={dispatch}
-      />
-      <ProductSection
-        title="Eggs"
-        items={filterByPrice(eggItems)}
-        cartItems={cartItems}
-        dispatch={dispatch}
-      />
+      {(!categoryFilter || categoryFilter === "cheese") && (
+        <ProductSection
+          title="Cheese"
+          items={filterByPrice(cheeseItems)}
+          cartItems={cartItems}
+          dispatch={dispatch}
+        />
+      )}
+      {(!categoryFilter || categoryFilter === "milk") && (
+        <ProductSection
+          title="Milk"
+          items={filterByPrice(milkItems)}
+          cartItems={cartItems}
+          dispatch={dispatch}
+        />
+      )}
+      {(!categoryFilter || categoryFilter === "eggs") && (
+        <ProductSection
+          title="Eggs"
+          items={filterByPrice(eggItems)}
+          cartItems={cartItems}
+          dispatch={dispatch}
+        />
+      )}
     </div>
   );
 };

@@ -9,17 +9,18 @@ import { useState } from "react";
 
 export default function Home() {
   const [priceFilter, setPriceFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("");
   return (
     <div className="bg-white">
       <Header />
       <div className="lg:hidden ">
-        <Filter setPriceFilter={setPriceFilter} /> 
-        <Products priceFilter={priceFilter} />
+        <Filter setPriceFilter={setPriceFilter} setCategoryFilter={setCategoryFilter} /> 
+        <Products priceFilter={priceFilter} categoryFilter={categoryFilter} />
       </div>
      
       <div className="hidden lg:flex">
-        <Filter setPriceFilter={setPriceFilter} />
-        <Products priceFilter={priceFilter} />
+        <Filter setPriceFilter={setPriceFilter} setCategoryFilter={setCategoryFilter} />
+        <Products priceFilter={priceFilter} categoryFilter={categoryFilter} />
       </div>
       <Footer />
     </div>

@@ -13,24 +13,17 @@ export const Header = () => {
   const [cartActive, setCartActive] = useState(false);
   const [loginActive, setLoginActive] = useState(false);
   const router = useRouter();
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
   const cartItems = useSelector((state: any) => state.items);
-const detailsModal = () => {
-router.push("/profile")
-}
+  const detailsModal = () => {
+    router.push("/profile");
+  };
   return (
     <div className="border border-[#F8F7F8] flex items-center justify-between lg:py-[10px] lg:px-[40px]">
       <div className="flex items-center gap-[20px]">
         <Link href={"/"}>
           <Image src={logo} alt="logo" />
         </Link>
-
-        <div className="text-[#3E3B3F] hidden lg:flex items-center gap-[5px]">
-          <MapPin />
-          <span className="font-[500] text-[14px]">10115 New York</span>
-        </div>
       </div>
 
       {/* <div className="relative w-[30%] mt-[20px]">
@@ -68,8 +61,11 @@ router.push("/profile")
           </span>
         </Link>
         {user ? (
-          <div className="px-[10px] py-[5px] lg:py-[10px] lg:px-[20px] rounded-full bg-[#FEF5FD] border border-[#B6349A] group hover:bg-[#B6349A] ">
-            <p onClick={detailsModal} className="font-[600] text-[#B6349A] group-hover:text-white text-[20px]">
+          <div
+            onClick={detailsModal}
+            className="px-[10px] cursor-pointer py-[5px] lg:py-[10px] lg:px-[20px] rounded-full bg-[#FEF5FD] border border-[#B6349A] group hover:bg-[#B6349A] "
+          >
+            <p className="font-[600] text-[#B6349A] group-hover:text-white text-[20px]">
               {user.displayName.charAt(0).toUpperCase()}
             </p>
           </div>

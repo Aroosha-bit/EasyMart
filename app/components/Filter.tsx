@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 
-export const Filter = ({ setPriceFilter }: any) => {
+export const Filter = ({ setPriceFilter, setCategoryFilter }: any) => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [category, setCategory] = useState("");
 
   const filters = [
     { label: "All", value: "All" },
@@ -15,11 +16,19 @@ export const Filter = ({ setPriceFilter }: any) => {
   const handleReset = () => {
     setActiveFilter("All");
     setPriceFilter("All");
+    setCategory("");
+    setCategoryFilter("");
   };
 
   const handleSelect = (value: string) => {
     setActiveFilter(value);
     setPriceFilter(value);
+  };
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = e.target.value;
+
+    setCategory(selectedCategory);
+    setCategoryFilter(selectedCategory);
   };
 
   const FilterContent = () => (
@@ -28,7 +37,7 @@ export const Filter = ({ setPriceFilter }: any) => {
         <p className="text-[#000000] font-semibold text-sm">Filters</p>
         <button
           onClick={handleReset}
-          className="text-[#B6349A] font-semibold text-sm hover:opacity-75 transition-opacity"
+          className="text-[#B6349A] cursor-pointer font-semibold text-sm hover:opacity-75 transition-opacity"
         >
           Reset
         </button>
@@ -39,12 +48,14 @@ export const Filter = ({ setPriceFilter }: any) => {
         <div className="flex flex-col gap-4">
           {filters.map(({ label, value }) => (
             <div key={value} className="flex items-center justify-between">
-              <span className="text-sm font-medium text-[#3E3B3F]">{label}</span>
+              <span className="text-sm font-medium text-[#3E3B3F]">
+                {label}
+              </span>
               <button
                 onClick={() => handleSelect(value)}
                 aria-pressed={activeFilter === value}
                 aria-label={`Filter by ${label}`}
-                className={`w-[52px] h-[25px] rounded-full p-[3px] transition-all duration-300 flex items-center flex-shrink-0
+                className={`w-[52px] h-[25px] cursor-pointer rounded-full p-[3px] transition-all duration-300 flex items-center flex-shrink-0
                   ${activeFilter === value ? "bg-[#B6349A]" : "bg-[#D9D9D9]"}`}
               >
                 <div
@@ -55,6 +66,21 @@ export const Filter = ({ setPriceFilter }: any) => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="bg-[#F8F7F852] p-3 rounded-[20px] border border-[#F8F7F8] flex flex-col gap-4">
+        <p className="text-[#000000] font-semibold text-sm">Category</p>
+        <select
+          id="category"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+          focus:ring-[#B6349A] focus:border-[#B6349A] block w-full p-2.5"
+          onChange={handleCategoryChange}
+        >
+          <option>Choose a category</option>
+          <option value="cheese">Cheese</option>
+          <option value="milk">Milk</option>
+          <option value="eggs">Eggs</option>
+        </select>
       </div>
     </div>
   );
@@ -94,10 +120,7 @@ export const Filter = ({ setPriceFilter }: any) => {
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-500"
             aria-label="Close filters"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <X />
           </button>
         </div>
 

@@ -8,7 +8,7 @@ export const Footer = () => {
   const companyLinks = ["Contact", "Blog"];
   const socialLinks = ["Facebook", "Twitter", "Instagram"];
   return (
-    <div className="border-t border-[#E0E0E0]">
+    <div className="border-t   w-full border-[#E0E0E0]">
       <div className="container mt-4 mx-auto py-5  px-5 ">
         <div className="grid lg:grid-cols-6 grid-cols-1 gap-4">
           <Image src={FooterLogo} alt="" />
@@ -78,7 +78,7 @@ export const Footer = () => {
        
       </div>
        <div className="border-t mt-4 flex items-center justify-center border-[#E0E0E0] text-[#5F6980] py-2 text-[12px]">
-          All rights reserved.© 2024 EmaStudio{" "}
+          All rights reserved.© 2026{" "}
         </div>
     </div>
   );
