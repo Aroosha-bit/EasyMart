@@ -9,8 +9,8 @@ export const Footer = () => {
   const socialLinks = ["Facebook", "Twitter", "Instagram"];
   return (
     <div className="border-t border-[#E0E0E0]">
-      <div className="container mt-4 mx-auto  py-5 lg:px-0 px-5 ">
-        <div className="flex lg:flex-row flex-col lg:gap-0 gap-5 items-start justify-between">
+      <div className="container mt-4 mx-auto py-5  px-5 ">
+        <div className="grid lg:grid-cols-6 grid-cols-1 gap-4">
           <Image src={FooterLogo} alt="" />
           <div>
             <p className="text-[#282828] font-[600] text-[14px]">About</p>
@@ -75,10 +75,11 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="border-t mt-2 flex items-center justify-center border-[#F8F7F8] text-[#5F6980] py-2 text-[12px]">
+       
+      </div>
+       <div className="border-t mt-4 flex items-center justify-center border-[#E0E0E0] text-[#5F6980] py-2 text-[12px]">
           All rights reserved.© 2024 EmaStudio{" "}
         </div>
-      </div>
     </div>
   );
 };
